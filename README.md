@@ -23,9 +23,9 @@ pnpm dev
 2. if user authenticated, should redirect to profile page
 
 ## Verification Page
-- [ ] should have 4 digit inputs
-- [ ] should focus on first input when page loaded
-- [ ] should focus on next input when user enter a digit 
+- [x] should have 4 digit inputs
+- [x] should focus on first input when page loaded
+- [x] should focus on next input when user enter a digit 
 - [ ] should focus on previous input when user press backspace
 - [ ] should auto submit when user enter 4 digits
 - [ ] should show error message when user enter wrong code
