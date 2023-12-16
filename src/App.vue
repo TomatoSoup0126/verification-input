@@ -6,11 +6,16 @@ import Loading from '@/components/Loading.vue'
 
 const isLoading = ref(false);
 const token = ref('');
+
+const initProfile = {
+  photo: '',
+  quote: '',
+  username: ''
+};
+
 const user = reactive({
   profile: {
-    photo: '',
-    quote: '',
-    username: ''
+    ...initProfile
   }
 });
 
@@ -62,9 +67,7 @@ const getTokenFromLocalStorage = () => {
 const handleLogout = () => {
   token.value = '';
   user.profile = {
-    photo: '',
-    quote: '',
-    username: ''
+    ...initProfile
   };
   localStorage.removeItem('token');
 };
