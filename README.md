@@ -36,9 +36,9 @@ pnpm dev
 - [x] each input should be 1 numeric only
 
 ## Profile Page
-- [ ] should show username, quote , user photo and logout button
-- [ ] should remove token and redirect to verification page when user click logout button
-- [ ] should not log out user when user refresh page
+- [x] should show username, quote , user photo and logout button
+- [x] should remove token and redirect to verification page when user click logout button
+- [x] should not log out user when user refresh page
 
 ## Mock API Documentation
 

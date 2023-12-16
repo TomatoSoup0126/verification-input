@@ -5,27 +5,45 @@ const props = defineProps({
     required: true
   }
 });
+
+const emit = defineEmits(['logout']);
+
+const handleLogout = () => {
+  emit('logout');
+};
 </script>
 
 <template>
-  <figure class="profile">
-    <img class="profile-photo" :src="props.profile.photo" alt="" width="300" height="512">
-    <div class="profile-details">
-      <blockquote>
-        <p class="profile-quote font-medium">
-          {{ props.profile.quote }}
-        </p>
-      </blockquote>
-      <figcaption class="font-medium">
-        <div class="text-sky-500">
-          {{ props.profile.username }}
-        </div>
-      </figcaption>
-    </div>
-  </figure>
+  <div class="profile-container">
+    <figure class="profile">
+      <img class="profile-photo" :src="props.profile.photo" alt="" width="300" height="512">
+      <div class="profile-details">
+        <blockquote>
+          <p class="profile-quote font-medium">
+            {{ props.profile.quote }}
+          </p>
+        </blockquote>
+        <figcaption class="font-medium">
+          <div class="text-sky-500">
+            {{ props.profile.username }}
+          </div>
+        </figcaption>
+      </div>
+    </figure>
+
+    <button
+      class="btn btn-primary"
+      @click="handleLogout"
+    >
+      Logout
+    </button>
+  </div>
 </template>
 
 <style scoped>
+.profile-container {
+  text-align: center;
+}
 .profile {
   --tw-ring-inset: ;
   --tw-ring-offset-width: 0px;

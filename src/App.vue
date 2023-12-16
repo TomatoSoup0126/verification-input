@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, onMounted } from 'vue';
 import OtpVerify from '@/components/OtpVerify.vue'
 import Profile from '@/components/Profile.vue'
 import Loading from '@/components/Loading.vue'
@@ -44,8 +44,34 @@ const postAuth = async () => {
 
 const handleUpdateToken = (value) => {
   token.value = value;
+  saveTokenToLocalStorage()
   postAuth();
-}
+};
+
+const saveTokenToLocalStorage = () => {
+  localStorage.setItem('token', token.value);
+};
+
+const getTokenFromLocalStorage = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    handleUpdateToken(token);
+  }
+};
+
+const handleLogout = () => {
+  token.value = '';
+  user.profile = {
+    photo: '',
+    quote: '',
+    username: ''
+  };
+  localStorage.removeItem('token');
+};
+
+onMounted(() => {
+  getTokenFromLocalStorage();
+});
 </script>
 
 <template>
@@ -53,6 +79,7 @@ const handleUpdateToken = (value) => {
   <Profile
     v-if="!showOtpVerify"
     :profile="user.profile"
+    @logout="handleLogout"
   />
   <OtpVerify
     v-else
