@@ -42,6 +42,22 @@ const moveToNextInput = (index: number): void => {
   }
 };
 
+const handlePaste = (event: ClipboardEvent): void => {
+  const pastedText = event.clipboardData.getData('text');
+  const pastedNumbers = pastedText.split('').map(Number);
+
+  const isNumberEvery = pastedNumbers.every((number) => !isNaN(number));
+  const isMatchLength = pastedNumbers.length === inputs.value.length;
+
+  if (isMatchLength && isNumberEvery) {
+    inputValues.forEach((_, index) => {
+      inputValues[index] = pastedNumbers[index];
+    });
+  } else {
+    event.preventDefault();
+  }
+};
+
 onMounted(() => {
   focusInputByIndex(0);
 });
@@ -56,12 +72,13 @@ onMounted(() => {
           v-for="(input, index) in inputValues"
           :key="`input_${index}`"
           :value="inputValues[index]"
-          class="input"
           ref="inputs"
+          class="input"
           type="text"
           maxlength="1"
           @keypress="isNumber($event)"
           @keyup="(event) => handleKeydown({event, index})"
+          @paste="handlePaste"
         >
       </div>
     </div>
