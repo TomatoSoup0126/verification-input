@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue';
 
+const emit = defineEmits(['start-loading', 'stop-loading', 'update-token']);
+
+const errorMessage = ref('');
+
 const inputs = ref<HTMLElement[]>([]);
 
 const inputValues:number[] = reactive([
@@ -37,8 +41,13 @@ const focusInputByIndex = (index: number): void => {
 };
 
 const moveToNextInput = (index: number): void => {
-  if (index < inputs.value.length - 1) {
-    focusInputByIndex(index + 1);
+  if (index <= inputs.value.length - 1) {
+    const isLastInput = index === inputs.value.length - 1;
+    if (isLastInput) {
+      postCodeForVerification();
+    } else {
+      focusInputByIndex(index + 1);
+    }
   }
 };
 
@@ -55,6 +64,30 @@ const handlePaste = (event: ClipboardEvent): void => {
     });
   } else {
     event.preventDefault();
+  }
+};
+
+const updateErrorMessage = (message: string): void => {
+  errorMessage.value = message;
+};
+
+const postCodeForVerification = async () => {
+  const code = inputValues.join('');
+  updateErrorMessage('');
+  emit('start-loading');
+  try {
+    const response = await fetch('/api/verify', { method: "POST", body: JSON.stringify({ code }) })
+    const data = await response.json();
+    if (data.valid && data.token) {
+      emit('update-token', data.token);
+    } else {
+      throw new Error('Invalid code');
+    }
+  } catch (error) {
+    console.error(error);
+    updateErrorMessage(error.message);
+  } finally {
+    emit('stop-loading');
   }
 };
 
@@ -82,6 +115,7 @@ onMounted(() => {
         >
       </div>
     </div>
+    <span class="error-msg">{{ errorMessage }}</span>
   </form>
 </template>
 
@@ -108,5 +142,14 @@ onMounted(() => {
   height: 12rem;
   text-align: center;
   font-size: 2rem;
+}
+
+.error-msg {
+  display: block;
+  margin-top: 2rem;
+  color: red;
+  font-size: large;
+  width: 100%;
+  text-align: center;
 }
 </style>

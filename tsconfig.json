@@ -18,5 +18,8 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "tests/**/*.vue"
-  ]
+  ],
+  "compilerOptions": {
+    "lib": ["esnext", "dom"],
+  }
 }

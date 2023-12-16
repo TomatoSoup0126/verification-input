@@ -1,18 +1,24 @@
 <script lang="ts" setup>
+const props = defineProps({
+  profile: {
+    type: Object,
+    required: true
+  }
+});
 </script>
 
 <template>
   <figure class="profile">
-    <img class="profile-photo" src="https://cdn.glitch.com/3c3ffadc-3406-4440-bb95-d40ec8fcde72%2FHomerSimpson.png?1497567511939" alt="" width="300" height="512">
+    <img class="profile-photo" :src="props.profile.photo" alt="" width="300" height="512">
     <div class="profile-details">
       <blockquote>
         <p class="profile-quote font-medium">
-          “I believe the children are the future... Unless we stop them now!”
+          {{ props.profile.quote }}
         </p>
       </blockquote>
       <figcaption class="font-medium">
         <div class="text-sky-500">
-          Homer Simpson
+          {{ props.profile.username }}
         </div>
       </figcaption>
     </div>
