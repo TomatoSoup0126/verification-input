@@ -62,6 +62,7 @@ const handlePaste = (event: ClipboardEvent): void => {
     inputValues.forEach((_, index) => {
       inputValues[index] = pastedNumbers[index];
     });
+    postCodeForVerification();
   } else {
     event.preventDefault();
   }
