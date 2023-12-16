@@ -3,14 +3,12 @@ import { ref, reactive, onMounted } from 'vue';
 
 const inputs = ref<HTMLElement[]>([]);
 
-const inputValues = reactive<number | null[]>([
+const inputValues:number[] = reactive([
   null,
   null,
   null,
   null
 ]);
-
-const step:number = ref(0)
 
 const isNumber = (event: KeyboardEvent) => {
   const value = parseInt(event.key);
